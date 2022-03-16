@@ -229,6 +229,18 @@ motor2 = Motor('D')
 cam = cv2.VideoCapture(0)
 ret,frame = cam.read()
 
+# cascade = cv2.CascadeClassifier('toothbrush.xml')
+# cv2.imwrite("/home/pi/fun-stuff/me35/test3.jpg", frame)
+# img = cv2.imread("/home/pi/fun-stuff/me35/test3.jpg")
+
+# resized = cv2.resize(img,(400,200))
+# gray=cv2.cvtColor(resized,cv2.COLOR_BGR2GRAY)
+# faces=cascade.detectMultiScale(gray,1.3,4)
+# for(x,y,w,h) in faces:
+#     resized=cv2.rectangle(resized,(x,y),(x+w,y+h),(0,255,0),2)
+
+# cv2.imwrite("/home/pi/fun-stuff/me35/test3.jpg", resized)
+
 
 count = 0
 while True:
@@ -238,7 +250,7 @@ while True:
         ch = cv2.waitKey(100)
         if ch& 0xFF == ord('q'):
           break
-        elif count >=40:
+        elif count >=100:
           break
 
 # og = cv2.imread("/home/pi/fun-stuff/me35/test.jpg")

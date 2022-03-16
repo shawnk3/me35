@@ -235,7 +235,7 @@ ret,frame = cam.read()
 
 # resized = cv2.resize(img,(400,200))
 # gray=cv2.cvtColor(resized,cv2.COLOR_BGR2GRAY)
-# faces=cascade.detectMultiScale(gray,1.3,4)
+# faces=cascade.detectMultiScale(gray,1.3,3)
 # for(x,y,w,h) in faces:
 #     resized=cv2.rectangle(resized,(x,y),(x+w,y+h),(0,255,0),2)
 
@@ -250,7 +250,7 @@ while True:
         ch = cv2.waitKey(100)
         if ch& 0xFF == ord('q'):
           break
-        elif count >=100:
+        elif count >=300:
           break
 
 # og = cv2.imread("/home/pi/fun-stuff/me35/test.jpg")

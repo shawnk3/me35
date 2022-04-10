@@ -49,7 +49,7 @@ import matplotlib.pyplot as plt
 #     print('Onshape client configured')
 
 
-# print("---------------------TOOTHPASTE------------------------")
+# # print("---------------------TOOTHPASTE------------------------")
 
 # url = 'https://rogers.onshape.com/documents/3c57a9ed71ef9764af978718/w/5071b877874272a8c32e15a6/e/e814809deb99e01b4ac44682' #@param {type:"string"}
 # showResponse = False #@param {type:"boolean"}
@@ -121,7 +121,7 @@ import matplotlib.pyplot as plt
 # else:
 #   pass
 
-# #REMAINING TOOTHPASTE.
+# # #REMAINING TOOTHPASTE.
 
 
 # plt.style.use('seaborn-whitegrid')
@@ -218,20 +218,80 @@ import matplotlib.pyplot as plt
 #     app.run(host='0.0.0.0', debug=True, threaded=True)
 
 
+
+
+# IP = '0.0.0.0'
+# app = Flask(__name__)
+# @app.route('/')
+# def index():
+#     return render_template('index.html')
+# def gen(camera):
+#     while True:
+#         if camera.stopped:
+#             break
+#         frame = camera.read()
+#         ret, jpeg = cv2.imencode('.jpg',frame)
+# @app.route('/video_feed')
+# def video_feed():
+#     return Response(gen(WebcamVideoStream().start()),
+#                     mimetype='multipart/x-mixed-replace; boundary=frame')
+# if __name__ == '__main__':
+#     app.run(debug=True, host=IP)
+
+
 # # ## Chage sensor port if different and make sure you are using the correct sensor code for buildhat
 motor = Motor('A')
-# motor = MotorPair('A','C')
+motorP = MotorPair('C','A')
 btn = ForceSensor('B')
 # dist = DistanceSensor('C')
 motor2 = Motor('D')
 
 
 cam = cv2.VideoCapture(0)
-ret,frame = cam.read()
+# ret,frame = cam.read()
 
-# cascade = cv2.CascadeClassifier('toothbrush.xml')
+toothCascade = cv2.CascadeClassifier('toothbrush.xml')
 # cv2.imwrite("/home/pi/fun-stuff/me35/test3.jpg", frame)
 # img = cv2.imread("/home/pi/fun-stuff/me35/test3.jpg")
+
+# og = cv2.imread("/home/pi/fun-stuff/me35/test.jpg")
+
+
+# if og.shape == img.shape:
+#   print("The images have same size and channels")
+#   difference = cv2.subtract(og, img)
+#   b, g, r = cv2.split(difference)
+# if cv2.countNonZero(b) == 0 and cv2.countNonZero(g) == 0 and cv2.countNonZero(r) == 0:
+#   print("The images are completely Equal")
+
+# path = '/home/pi/fun-stuff/me35/dataset/p'
+# recognizer = cv2.face.LBPHFaceRecognizer_create()
+# detector = cv2.CascadeClassifier("toothbrush.xml")
+# # function to get the images and label data
+# def getImagesAndLabels(path):
+#     imagePaths = [os.path.join(path,f) for f in os.listdir(path)]     
+#     faceSamples=[]
+#     ids = []
+#     for imagePath in imagePaths:
+#         PIL_img = Image.open(imagePath).convert('L') # convert it to grayscale
+#         img_numpy = np.array(PIL_img,'uint8')
+#         id = int(os.path.split(imagePath)[-1].split(".")[1])
+#         faces = detector.detectMultiScale(img_numpy)
+#         for (x,y,w,h) in faces:
+#             faceSamples.append(img_numpy[y:y+h,x:x+w])
+#             ids.append(id)
+#     return faceSamples,ids
+# print ("\n [INFO] Training faces. It will take a few seconds. Wait ...")
+# faces,ids = getImagesAndLabels(path)
+# recognizer.train(faces, np.array(ids))
+# # Save the model into trainer/trainer.yml
+# recognizer.write('trainer.yml') # recognizer.save() worked on Mac, but not on Pi
+# # Print the numer of faces trained and end program
+# print("\n [INFO] {0} faces trained. Exiting Program".format(len(np.unique(ids))))
+
+squeezes = 20;
+
+
 
 # resized = cv2.resize(img,(400,200))
 # gray=cv2.cvtColor(resized,cv2.COLOR_BGR2GRAY)
@@ -242,16 +302,16 @@ ret,frame = cam.read()
 # cv2.imwrite("/home/pi/fun-stuff/me35/test3.jpg", resized)
 
 
-count = 0
-while True:
-        count +=1
-        cv2.imwrite("/home/pi/fun-stuff/me35/dataset/n/User-"+ str(count) + ".jpg", frame)
-        cv2.imwrite("/home/pi/fun-stuff/me35/test3.jpg", frame)
-        ch = cv2.waitKey(100)
-        if ch& 0xFF == ord('q'):
-          break
-        elif count >=300:
-          break
+# count = 0
+# while True:
+#         count +=1
+#         cv2.imwrite("/home/pi/fun-stuff/me35/dataset/n/User-"+ str(count) + ".jpg", frame)
+#         cv2.imwrite("/home/pi/fun-stuff/me35/test3.jpg", frame)
+#         ch = cv2.waitKey(100)
+#         if ch& 0xFF == ord('q'):
+#           break
+#         elif count >=300:
+#           break
 
 # og = cv2.imread("/home/pi/fun-stuff/me35/test.jpg")
 # og2 = cv2.cv2.imread("/home/pi/fun-stuff/me35/test2.jpg")
@@ -273,38 +333,99 @@ while True:
 # #                     print("names['jsonType'] == 'Revolute'")
 # #                     pos = math.floor(translate(names['rotationZ'],0,math.pi,0,180))
 
-
 # while True:
-#     if btn.is_pressed():
-#         motor2.run_for_degrees(-90)
-    # mea = dist.get_distance()
-    # print("toothbrush distance:", dist.get_distance())
 
-    # mates = getMates(client,url,base)
-    # for names in mates['mateValues']:
-    #         if names['mateName'] == controlMate:
-    #             ## Modify the translate to map range of Onshape mate values to motor control value
-    #             print("mate value = "+str(names['rotationZ']))
-    #             if names['jsonType'] == "Revolute":
-    #                 print("names['jsonType'] == 'Revolute'")
-    #                 pos = math.floor(translate(names['rotationZ'],0,math.pi,0,180))
+#     _,img = cam.read()
+#     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+#     low = np.array([0,0,0])
+#     high = np.array([255,255,255])
+    
+#     mask = cv2.inRange(hsv,low,high)
+#     # Bitwise-AND mask and original image
+
+#     #masking of image
+#     bit = cv2.bitwise_and(img,img ,mask)
+    # cv2.imwrite("/home/pi/fun-stuff/me35/test.jpg",bit)
+
+
+
+
+while True:
+    if btn.is_pressed():
+        motor2.run_for_degrees(-90,25)
+#     # mea = dist.get_distance()
+#     # print("toothbrush distance:", dist.get_distance())
+
+#     # mates = getMates(client,url,base)
+#     # for names in mates['mateValues']:
+#     #         if names['mateName'] == controlMate:
+#     #             ## Modify the translate to map range of Onshape mate values to motor control value
+#     #             print("mate value = "+str(names['rotationZ']))
+#     #             if names['jsonType'] == "Revolute":
+#     #                 print("names['jsonType'] == 'Revolute'")
+#     #                 pos = math.floor(translate(names['rotationZ'],0,math.pi,0,180))
 
     
-    # if(mea < 50 and mea > 0):
-    #     print("BRUSH DETECTED!")
-    #     # for i in range(10):
-    #     # motor.run_for_rotations(2,80)
-    #     #   # motor.run_for_rotations(1,-80)
-    #     #   # motor.run_for_rotations(1,80)
-    #     time.sleep(5)
-    #     # ret,frame = cam.read()
+#     # if(mea < 50 and mea > 0):
+#     #     print("BRUSH DETECTED!")
+#         # motorP.run_for_rotations(2,100)
+        ret,frame = cam.read()
 
-    #     # cv2.imwrite("/home/pi/fun-stuff/me35/test.jpg", frame)
+        cv2.imwrite("/home/pi/fun-stuff/me35/test.jpg", frame)
+
+        resized = cv2.resize(frame,(400,200))
+        gray=cv2.cvtColor(resized,cv2.COLOR_BGR2GRAY)
+        faces=toothCascade.detectMultiScale(gray,1.3,7)
+        for(x,y,w,h) in faces:
+            resized=cv2.rectangle(resized,(x,y),(x+w,y+h),(0,255,0),2)
+
+        cv2.imwrite("/home/pi/fun-stuff/me35/test3.jpg", resized)
+
+
+
+
+        n = 0.5;        
+        for i in range(2):
+          motorP.run_for_rotations(n,80)
+          motorP.run_for_rotations(n,-80)
+          motorP.run_for_rotations(n,80)
+          n = n + .5
+          motorP.run_for_rotations(n*4,-80)
         
-    #     motor2.run_for_degrees(180)
+
+        print("VOLUME SQUEEZES: ", squeezes)
+
+        squeezes = squeezes - 1;
+
+
+        ret,frame = cam.read()
+
+        cv2.imwrite("/home/pi/fun-stuff/me35/test.jpg", frame)
+        time.sleep(5)
+        # ret,frame = cam.read()
+        # hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+
+
+        if squeezes == 0: break
+        # low = np.array([35, 255, 255])
+        # high = np.array([25, 50, 70])
+    
+        # mask = cv2.inRange(hsv,low,high)
+        # Bitwise-AND mask and original image
+
+        #masking of image
+        # bit = cv2.bitwise_and(frame,frame ,mask)
+
+        # cv2.imwrite("/home/pi/fun-stuff/me35/test.jpg", im_with_keypoints)
         
-    # motor.run_for_rotations( pos*0.0028 ,-20)
-    # motor.run_for_rotations(pos*0.0028 ,20)
+        
+        motor2.run_for_degrees(180,25)
+        print("Number of squeezes left: ", squeezes)
+
+        
+#     # motor.run_for_rotations( pos*0.0028 ,-20)
+#     # motor.run_for_rotations(pos*0.0028 ,20)
 
     
 # # print("color is: ", sen.get_color())
